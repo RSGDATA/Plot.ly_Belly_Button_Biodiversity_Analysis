@@ -8,14 +8,15 @@ function buildCharts(selected) {
     //console.log(data)
     // You need to filter by selected
     
-    let sample = data.samples.filter(values => values.otu_id == selected);
-        console.log(sample)
+    let sample = data.samples.filter(values => values.id == selected);
+        console.log(sample[0].sample_values)
     
+        
 //     })
 
     var chart = [
         {
-          x: sample,
+          x: sample[0].sample_values,
           y: data,
           type: 'bar'
         }
