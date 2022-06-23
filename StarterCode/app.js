@@ -5,20 +5,24 @@ function buildCharts(selected) {
 
     d3.json("samples.json").then((data) => {
 
-    //console.log(data)
+    console.log(data)
     // You need to filter by selected
     
     let sample = data.samples.filter(values => values.id == selected);
-        console.log(sample[0].sample_values)
+        
+    //sample[0].otu_ids.slice(0,10).filter("OTU " + values.toString)
+
+        //console.log(sample[0].sample_values)
     
         
 //     })
 
     var chart = [
         {
-          x: sample[0].sample_values,
-          y: data,
-          type: 'bar'
+          x: sample[0].sample_values.slice(0,10).reverse(),
+          y: sample[0].otu_ids.slice(0,10).map(x => "OTU " + x.toString()).reverse(),
+          type: 'bar',
+          orientation: 'h'
         }
       ];
       
