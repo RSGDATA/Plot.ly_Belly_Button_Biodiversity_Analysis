@@ -38,8 +38,31 @@ function buildCharts(selected) {
 
       // Bubble chart filter
 
-      xValues = sample[0].sample_values.slice(0,10)
+      xValues1 = sample[0].otu_ids
+      yValues1 = sample[0].sample_values
 
+      console.log(xValues)
+
+      var trace3 = {
+        x: xValues1,
+        y: yValues1,
+        mode: 'markers',
+        marker: {
+          size: yValues1,
+          line: {
+            color: xValues1,
+            width: [2, 2, 6, 2]
+          }
+        },
+        type: 'scatter'
+      };
+      
+      var data = [trace3];
+      
+      var layout = {showlegend: false};
+      
+      Plotly.newPlot('bubble', data, layout);
+      
 
     })
 }
