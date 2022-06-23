@@ -10,28 +10,38 @@ function buildCharts(selected) {
     
     let sample = data.samples.filter(values => values.id == selected);
         
-    //sample[0].otu_ids.slice(0,10).filter("OTU " + values.toString)
 
-        //console.log(sample[0].sample_values)
-    
+        xValues = sample[0].sample_values.slice(0,10).reverse()
+        hoverText = sample[0].otu_labels.slice(0,10).reverse()
+            
         
+        // .slice, .map and dot reverse to add values in descending order
+        yValues  = sample[0].otu_ids.slice(0,10).map(x => "OTU " + x.toString()).reverse()
+    
+        console.log(hoverText)
 //     })
-
-    var chart = [
+    
+    // Bar Chart    
+    var barchart = [
         {
-          x: sample[0].sample_values.slice(0,10).reverse(),
-          y: sample[0].otu_ids.slice(0,10).map(x => "OTU " + x.toString()).reverse(),
+          x: xValues,
+          y:  yValues ,
           type: 'bar',
-          orientation: 'h'
+          orientation: 'h',
+          mode: 'markers',
+          marker: {size:5},
+          text: hoverText.toString()
         }
       ];
-      
-      Plotly.newPlot('bar', chart);
+      var layout = {title: hoverText};
+      Plotly.newPlot('bar', barchart, layout);
+
+      // Bubble chart filter
+
+      xValues = sample[0].sample_values.slice(0,10)
+
+
     })
-
-// }
-
-
 }
 
 
@@ -40,17 +50,12 @@ function buildCharts(selected) {
 
 d3.json("samples.json").then((data) => {
 
-    //console.log(data.names)
 
     let dropdown = d3.select("#selDataset")
 
     data.names.forEach((id) => {
 
-       // console.log(id)
-
         dropdown.append('option').text(id).property("value", id)
-
-//         dropdown.append('option').text(id).property("value", id)
 
     })
 
@@ -62,13 +67,8 @@ function optionChanged(selected) {
     buildCharts(selected)
 }
 
-//     BuildCharts(selected)
-// }
-
-//}
-    
     function optionChanged(newSample) {
-        //console.log(newSample)
+
         // fetch new data each time a new sample is selected
         buildMetadata(newSample);
         buildCharts(newSample);
@@ -83,9 +83,8 @@ function buildMetadata(sample){
     // Filter the data for the object with the desired sample number
 
     let resultArray = metadata.filter(sampleObj => sampleObj.id == sample);
-    console.log(resultArray)
     let result = resultArray[0];
-    console.log(result)
+    
     //Use d3 to select the panel with id of `#sample-metadata`
     let PANEL = d3.select("#sample-metadata");
     
@@ -103,89 +102,9 @@ function buildMetadata(sample){
   });
 }
 
-// // 1. Create the buildCharts function.
-// function buildCharts(sample) {
-
-//     console.log(sample)
-
-//     // 2. Use  d3.json to load and retrieve the samples.json file
-//     d3.json("samples.json").then((sample) => {
-
-//         let barChart = d3.select("#bar")
-//         //console.log(data.samples.otu_ids)
-
-//         sample.samples.forEach((samples) => { 
-
-//             console.log(samples.samples)
-
-//            // barChart.append('bar').text(sample_values).property("value", sample_values)
-    
-//     });
 
 
-// });
 
-
-//         // 3. Create a variable that holds the samples array.
-        
-//         // 4. Create a variable that filters the samples for the object with the desired sample number.
-
-//         // 5. Create a variable that holds the first sample in the array
-
-//         // 6 Create variables that hold the otu_ids, otu_labels, and sample_values.
-
-
-//         // 7. Create the yticks for the bar chart.
-//         // Hint: Get the top 1- otu_ids and map them in descending order
-//         // so the otu_ids with the most bacteria are last.
-
-//         //let yticks =
-
-//         // 8. Create the trace for thebar chart.
-//         //let barData = [
-
-
-//         //];
-//         // 9. Create the trace for the bar chart.
-//         //let barLayout = {
-
-//         //}
-//         // 10. Use Plotly to plot the data with the layout
-
-//     //});
-// }
-
-// function init() {
-
-//     // Grab a reference to dropdown select element 
-//      let selector = d3.select("#selDataset");
-    
-//     // Use the list of sample names to populate the select options
- 
-//      d3.json("samples.json").then((data) => {
-//          let sampleNames = data.names;
-//         console.log(data)
-     
-     
- 
-//      sampleNames.forEach((sample) => {
-//          selector
-//          .append ("option")
-//          .text (sample)
-//          .property ("value", sample);
- 
- 
-//          });
- 
-//          // Ise the first sample from the list to build the initial plots
-//          let firstSample = sampleNames[0]; 
-//          buildCharts(firstSample);
-//          buildMetadata(firstSample);
- 
-//      });
- 
-//     }
-// init();
 
 
 
