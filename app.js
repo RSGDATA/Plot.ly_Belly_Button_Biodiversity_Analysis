@@ -36,7 +36,7 @@ function buildCharts(selected) {
       var layout = {title: hoverText};
       Plotly.newPlot('bar', barchart, layout);
 
-      // Bubble chart filter
+      // Bubble chart 
 
       xValues1 = sample[0].otu_ids
       yValues1 = sample[0].sample_values
@@ -105,20 +105,19 @@ function buildMetadata(sample){
     let metadata = data.metadata;
     // Filter the data for the object with the desired sample number
 
-    let resultArray = metadata.filter(sampleObj => sampleObj.id == sample);
+    let resultArray = metadata.filter(dict => dict.id == sample);
     let result = resultArray[0];
     
-    //Use d3 to select the panel with id of `#sample-metadata`
-    let PANEL = d3.select("#sample-metadata");
+    // d3 to select the panel with id of `#sample-metadata`
+    let meta = d3.select("#sample-metadata");
     
-    // Use `.html("") to clear any existing metadata
-    PANEL.html("");
+    //.html("") to clear any existing metadata
+    meta.html("");
     
-    // Use `Object.entries` to add each key and value pair to the panel
-    // Hint: Inside the loop, you eill need to use d3 to appen new
+    
     // tags for each key-value in the metadata.
     Object.entries(result).forEach(([key, value]) => {
-        PANEL.append("h6").text(`${key.toUpperCase()}: ${value}`);
+        meta.append("h6").text(`${key.toUpperCase()}: ${value}`);
 
     });
   
