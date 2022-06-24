@@ -30,7 +30,7 @@ function buildCharts(selected) {
           orientation: 'h',
           mode: 'markers',
           marker: {size:5},
-          text: hoverText.toString()
+          text: hoverText
         }
       ];
       var layout = {title: hoverText};
@@ -47,12 +47,11 @@ function buildCharts(selected) {
         x: xValues1,
         y: yValues1,
         mode: 'markers',
+        text: hoverText,
         marker: {
           size: yValues1,
-          line: {
+          
             color: xValues1,
-            width: [2, 2, 6, 2]
-          }
         },
         type: 'scatter'
       };
@@ -81,7 +80,8 @@ d3.json("samples.json").then((data) => {
         dropdown.append('option').text(id).property("value", id)
 
     })
-
+    
+    buildMetadata(data.names[0])
     buildCharts(data.names[0])
  })
 
