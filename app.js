@@ -43,25 +43,58 @@ function buildCharts(selected) {
 
       console.log(xValues)
 
-      var trace3 = {
+      var trace1 = {
         x: xValues1,
         y: yValues1,
         mode: 'markers',
         text: hoverText,
+        
         marker: {
           size: yValues1,
-          
+          colorscale: 'YlGnBu',
             color: xValues1,
         },
-        type: 'scatter'
+        // type: 'scatter'
       };
       
-      var data = [trace3];
+      var data1 = [trace1];
       
       var layout = {showlegend: false};
       
-      Plotly.newPlot('bubble', data, layout);
+      Plotly.newPlot('bubble', data1, layout);
       
+      let metadata = data.metadata;
+    // Filter the data for the object with the desired sample number
+
+    let resultArray = metadata.filter(dict => dict.id == selected);
+    let result = resultArray[0];
+      console.log(result)
+      var data = [
+        {
+          domain: { x: [0, 1], y: [0, 1] },
+          value: result.wfreq,
+          
+          title: { text: "Belly Button Washing Frequency<br>Scrubs Per Week" },
+          type: "indicator",
+          mode: "gauge+number+delta",
+          delta: { reference: 5 },
+          gauge: {
+            axis: { range: [null, 10] },
+            steps: [
+              { range: [0, 5], color: "lightgray" },
+              { range: [5, 10], color: "gray" }
+            ],
+            threshold: {
+              line: { color: "red", width: 4 },
+              thickness: 0.75,
+              value: 490
+            }
+          }
+        }
+      ];
+      
+      var layout = { margin: { t: 0, b: 0 } };
+      Plotly.newPlot('gauge', data, layout);
 
     })
 }
